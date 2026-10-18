@@ -1,0 +1,64 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install FFmpeg
+        run: |
+          choco install ffmpeg -y
+          ffmpeg -version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build EXE with PyInstaller
+        run: |
+          pyinstaller --noconfirm --clean --onefile `
+            --name CognitiveVoiceEditor `
+            --console `
+            --hidden-import=src `
+            --hidden-import=src.pipeline `
+            --hidden-import=src.prune_pipeline `
+            --hidden-import=src.pacing_pipeline `
+            --hidden-import=src.welding_pipeline `
+            --hidden-import=faster_whisper `
+            --hidden-import=torch `
+            --hidden-import=torchaudio `
+            --hidden-import=scipy `
+            --hidden-import=scipy.signal `
+            --hidden-import=scipy.io.wavfile `
+            --hidden-import=google.genai `
+            --collect-all faster_whisper `
+            --collect-all ctranslate2 `
+            run_full_pipeline.py
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CognitiveVoiceEditor-Windows
+          path: dist/CognitiveVoiceEditor.exe
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Summary
+        run: |
+          Get-Item dist/CognitiveVoiceEditor.exe | Format-List Name, Length, LastWriteTime

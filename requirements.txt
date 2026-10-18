@@ -1,0 +1,18 @@
+# Cognitive Voice Editor – Modules 01–04
+# Python 3.10+
+
+# Module 01
+faster-whisper>=1.0.0
+torch>=2.0.0
+torchaudio>=2.0.0
+numpy>=1.24.0
+pydantic>=2.0.0
+tqdm>=4.65.0
+
+# Module 02
+google-genai>=1.0.0
+
+# Modules 03 & 04
+scipy>=1.10.0
+# soundfile>=0.12.1   # optional
+# librosa>=0.10.0     # optional

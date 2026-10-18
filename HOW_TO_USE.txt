@@ -1,0 +1,72 @@
+============================================================
+  COGNITIVE VOICE EDITOR – SIMPLE USAGE
+============================================================
+
+WHAT THIS DOES
+--------------
+Takes your long raw recording (with retakes, mumbling, silence,
+out-of-script words) and produces a clean, natural-sounding
+shorter track automatically.
+
+
+ONE-TIME SETUP (only once)
+--------------------------
+1. Open terminal in this folder.
+
+2. Install packages:
+      pip install -r requirements.txt
+
+3. (Recommended) Get free Gemini API key:
+      https://aistudio.google.com/apikey
+      Then either:
+         set GEMINI_API_KEY=your_key_here
+      or pass it with --api_key each time.
+
+
+HOW TO RUN
+----------
+Put your raw audio file anywhere, then:
+
+   python run_full_pipeline.py --input "C:\path\to\your_raw.wav"
+
+Or with language + API key:
+
+   python run_full_pipeline.py -i your_raw.wav -l ur --api_key YOUR_KEY
+
+Output will appear next to your input file as:
+   your_raw_clean.wav
+
+
+LANGUAGES
+---------
+  -l en     English
+  -l ur     Urdu
+  -l hi     Hindi
+  -l ar     Arabic
+  (leave empty = auto-detect)
+
+
+WITHOUT API KEY
+---------------
+It still runs, but will NOT remove retakes (keeps everything).
+Only silence handling + natural pacing + room-tone will work.
+For real retake/mumble removal you need the free Gemini key.
+
+
+INTERMEDIATE FILES
+------------------
+All step-by-step JSON files are saved in folder:
+   pipeline_work/
+You can ignore them. Final result is the *_clean.wav file.
+
+
+TIPS FOR BEST RESULTS
+---------------------
+- Use WAV or high-quality MP3 if possible.
+- Speak reasonably close to the mic (not too noisy room).
+- First test on a 2–5 minute sample, not the full 50 min.
+- If something sounds wrong, tell me the time code and
+  I will adjust the settings.
+
+
+============================================================
